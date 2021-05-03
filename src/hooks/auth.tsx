@@ -1,9 +1,16 @@
 import React, { createContext, useCallback, useState, useContext } from 'react';
 import api from '../services/api';
 
+interface User {
+  id: string;
+  avatar_url: string;
+  name: string;
+  email: string;
+}
+
 interface AuthState {
   token: string;
-  mappedUser: object;
+  user: User;
 }
 
 interface SignInCredentials {
@@ -12,7 +19,7 @@ interface SignInCredentials {
 }
 
 interface AuthContextData {
-  mappedUser: object;
+  user: User;
   signIn(credentials: SignInCredentials): Promise<void>;
   signOut(): void;
 }
@@ -21,9 +28,9 @@ const AuthContext = createContext<AuthContextData>({} as AuthContextData);
 const AuthProvider: React.FC = ({ children }) => {
   const [data, setData] = useState<AuthState>(() => {
     const token = localStorage.getItem('@GoBarber:token');
-    const mappedUser = localStorage.getItem('@GoBarber:user');
-    if (token && mappedUser) {
-      return { token, mappedUser: JSON.parse(mappedUser) };
+    const user = localStorage.getItem('@GoBarber:user');
+    if (token && user) {
+      return { token, user: JSON.parse(user) };
     }
     return {} as AuthState;
   });
@@ -33,11 +40,11 @@ const AuthProvider: React.FC = ({ children }) => {
       email,
       password,
     });
-    const { token, mappedUser } = response.data;
+    const { token, user } = response.data;
     localStorage.setItem('@GoBarber:token', token);
-    localStorage.setItem('@GoBarber:user', JSON.stringify(mappedUser));
+    localStorage.setItem('@GoBarber:user', JSON.stringify(user));
 
-    setData({ token, mappedUser });
+    setData({ token, user });
   }, []);
 
   const signOut = useCallback(() => {
@@ -47,9 +54,7 @@ const AuthProvider: React.FC = ({ children }) => {
   }, []);
 
   return (
-    <AuthContext.Provider
-      value={{ mappedUser: data.mappedUser, signIn, signOut }}
-    >
+    <AuthContext.Provider value={{ user: data.user, signIn, signOut }}>
       {children}
     </AuthContext.Provider>
   );

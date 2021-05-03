@@ -7,7 +7,7 @@ import { Link, useHistory } from 'react-router-dom';
 import api from '../../services/api';
 import { useToast } from '../../hooks/toast';
 
-import getvalidationErrors from '../../utils/getValidationErrors';
+import getValidationErrors from '../../utils/getValidationErrors';
 
 import { Container, Content, Background, AnimationContainer } from './styles';
 import Input from '../../components/Input';
@@ -49,7 +49,7 @@ const SignUp: React.FC = () => {
         });
       } catch (err) {
         if (err instanceof Yup.ValidationError) {
-          const errors = getvalidationErrors(err);
+          const errors = getValidationErrors(err);
           formRef.current?.setErrors(errors);
           return;
         }
