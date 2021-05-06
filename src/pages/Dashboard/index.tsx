@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { FiClock, FiPower } from 'react-icons/fi';
 import {
   Container,
@@ -8,12 +8,15 @@ import {
   Content,
   Schedule,
   NextAppointment,
+  Section,
+  Appointment,
   Calendar,
 } from './styles';
 import logoImg from '../../assets/logo.svg';
 import { useAuth } from '../../hooks/auth';
 
 const Dashboard: React.FC = () => {
+  const [selectedDate, setSelectedDate] = useState(new Date());
   const { signOut, user } = useAuth();
   return (
     <Container>
@@ -54,6 +57,51 @@ const Dashboard: React.FC = () => {
               </span>
             </div>
           </NextAppointment>
+          <Section>
+            <strong>Manhã</strong>
+            <Appointment>
+              <span>
+                <FiClock />
+                08:00
+              </span>
+              <div>
+                <img
+                  src="https://pbs.twimg.com/profile_images/1249332627510677504/TExkQcUI_400x400.jpg"
+                  alt="Felipe Yui"
+                />
+                <strong>Felipe Yui</strong>
+              </div>
+            </Appointment>
+            <Appointment>
+              <span>
+                <FiClock />
+                08:00
+              </span>
+              <div>
+                <img
+                  src="https://pbs.twimg.com/profile_images/1249332627510677504/TExkQcUI_400x400.jpg"
+                  alt="Felipe Yui"
+                />
+                <strong>Felipe Yui</strong>
+              </div>
+            </Appointment>
+          </Section>
+          <Section>
+            <strong>Tarde</strong>
+            <Appointment>
+              <span>
+                <FiClock />
+                08:00
+              </span>
+              <div>
+                <img
+                  src="https://pbs.twimg.com/profile_images/1249332627510677504/TExkQcUI_400x400.jpg"
+                  alt="Felipe Yui"
+                />
+                <strong>Felipe Yui</strong>
+              </div>
+            </Appointment>
+          </Section>
         </Schedule>
         <Calendar />
       </Content>
